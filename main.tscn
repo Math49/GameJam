@@ -1,0 +1,69 @@
+[gd_scene load_steps=9 format=3 uid="uid://0putljalft07"]
+
+[ext_resource type="PackedScene" uid="uid://c0xyew1nfh1a" path="res://enemy.tscn" id="1_8jfx8"]
+[ext_resource type="Script" path="res://main.gd" id="1_owb7t"]
+[ext_resource type="PackedScene" uid="uid://cvl42sdungpi7" path="res://players.tscn" id="2_u610g"]
+[ext_resource type="Script" path="res://EnemySpawner.gd" id="3_vnf88"]
+[ext_resource type="PackedScene" uid="uid://brdgpnyccsm6k" path="res://wall.tscn" id="5_5skbk"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_66lim"]
+font_size = 50
+
+[sub_resource type="LabelSettings" id="LabelSettings_pb7y3"]
+font_size = 60
+
+[sub_resource type="LabelSettings" id="LabelSettings_wrjpd"]
+font_size = 43
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_owb7t")
+
+[node name="Enemy" parent="." instance=ExtResource("1_8jfx8")]
+position = Vector2(1261, 453)
+
+[node name="Players" parent="." instance=ExtResource("2_u610g")]
+
+[node name="EnemySpawner" type="Node" parent="."]
+script = ExtResource("3_vnf88")
+
+[node name="SpawnTimer" type="Timer" parent="EnemySpawner"]
+autostart = true
+
+[node name="WaveTimer" type="Timer" parent="EnemySpawner"]
+wait_time = 10.0
+
+[node name="WaveLabel" type="Label" parent="EnemySpawner"]
+offset_left = 918.0
+offset_top = 164.0
+offset_right = 1011.0
+offset_bottom = 233.0
+label_settings = SubResource("LabelSettings_66lim")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TimerLabel" type="Label" parent="EnemySpawner"]
+offset_left = 880.0
+offset_top = 76.0
+offset_right = 1039.0
+offset_bottom = 159.0
+text = "timer"
+label_settings = SubResource("LabelSettings_pb7y3")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScoreLabel" type="Label" parent="."]
+offset_left = 1716.0
+offset_top = 53.0
+offset_right = 1818.87
+offset_bottom = 112.0
+label_settings = SubResource("LabelSettings_wrjpd")
+horizontal_alignment = 1
+
+[node name="Wall" parent="." instance=ExtResource("5_5skbk")]
+
+[connection signal="enemy_killed" from="Enemy" to="." method="_on_enemy_killed"]
+[connection signal="last_enemy_killed" from="Enemy" to="EnemySpawner" method="_on_LastEnemyKilled"]
+[connection signal="enemy_killed" from="EnemySpawner" to="." method="_on_enemy_killed"]
+[connection signal="last_enemy_killed" from="EnemySpawner" to="EnemySpawner" method="_on_LastEnemyKilled"]
+[connection signal="timeout" from="EnemySpawner/SpawnTimer" to="EnemySpawner" method="_on_SpawnTimer_timeout"]
+[connection signal="timeout" from="EnemySpawner/WaveTimer" to="EnemySpawner" method="_on_WaveTimer_timeout"]
