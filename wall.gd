@@ -3,13 +3,14 @@ extends Area2D  # ou KinematicBody2D selon vos besoins
 var max_health = 100
 var current_health = max_health
 signal enemy_entered
+var screen_size
 
 @onready var health_bar = $HealthBar  # Assurez-vous que le chemin vers le TextureProgress/ProgressBar est correct
 
 func _ready():
+	screen_size = get_viewport_rect().size
 	position.x = 500
-	position.y = 500
-	
+	position.y = screen_size.y
 	health_bar.max_value = max_health
 	health_bar.value = current_health
 

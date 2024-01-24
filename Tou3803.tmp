@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://bc2nam4uugwwt"]
+
+[ext_resource type="Script" path="res://Tourelle.gd" id="1_vpljb"]
+[ext_resource type="Texture2D" uid="uid://bt4h5gs4nng8n" path="res://art/canon.png" id="2_rqjoj"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5j3pj"]
+radius = 610.517
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t8tf2"]
+size = Vector2(99, 50)
+
+[node name="Tourelle" type="StaticBody2D"]
+script = ExtResource("1_vpljb")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_rqjoj")
+
+[node name="range" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="range"]
+position = Vector2(1, 4)
+shape = SubResource("CircleShape2D_5j3pj")
+
+[node name="FireTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1.5, 8)
+shape = SubResource("RectangleShape2D_t8tf2")
+
+[connection signal="area_entered" from="range" to="." method="_on_Range_area_entered"]
+[connection signal="area_exited" from="range" to="." method="_on_Range_area_exited"]
+[connection signal="timeout" from="FireTimer" to="." method="_on_FireTimer_timeout"]

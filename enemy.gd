@@ -11,24 +11,30 @@ var current_health = max_health
 var damage = 5
 var attacking_wall = false
 var target_wall = null
-var enemy_spawner = self
+var can_attack = true
 
 func _ready():
 	screen_size = get_viewport_rect().size
-	position.x = 1800
-	position.y = 500
+	position.x = screen_size.x
+	position.y = screen_size.y - 50
 
 func _process(delta):
+	
 	if moving:
 		var motion = Vector2(speed, 0) * delta
 		position += motion
-	elif target_wall != null:
-		target_wall.take_damage(damage * delta)
+	elif target_wall != null and can_attack:
+		can_attack = false
+		target_wall.take_damage(damage)
+		$AttackTimer.start()
 
 	if position.x < -get_collision_shape_radius():
 		position.x = screen_size.x + get_collision_shape_radius()
 	elif position.x > screen_size.x + get_collision_shape_radius():
 		position.x = -get_collision_shape_radius()
+
+func _on_AttackTimer_timeout():
+	can_attack = true
 
 func _on_Enemy_area_entered(area):
 	if area.name == "Wall":
@@ -36,12 +42,15 @@ func _on_Enemy_area_entered(area):
 		attacking_wall = true
 		target_wall = area
 		set_process(true)
+	elif area.name == "Players":
+		area.take_damage(10)
 
 func _on_Enemy_area_exited(area):
 	if area.name == "Wall":
 		attacking_wall = false
 		target_wall = null
 		set_process(false)
+
 
 func get_collision_shape_radius():
 	return $CollisionShape2D.shape.radius
@@ -52,8 +61,5 @@ func take_damage(damage_amount):
 		die()
 
 func die():
-	emit_signal("enemy_killed")
-	#emit_signal("enemy_killed")
-	#if enemies_spawned_this_wave >= enemies_per_wave:
-		#enemy_spawner.emit_signal("last_enemy_killed")
+	get_parent().emit_signal("enemy_killed")
 	queue_free()

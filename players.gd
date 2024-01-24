@@ -1,20 +1,39 @@
 extends Area2D
-signal hit
 
-@export var speed = 500 # How fast the player will move (pixels/sec).
-var screen_size # Size of the game window.
-var attack_duration = 0.5
-var color = Color(0.0, 0.0, 0.0, 0)
+@export var speed = 500
+@export var max_health = 100
+@onready var health_bar = $HealthBar
+var current_health = max_health
+var invulnerable = false
+var invulnerability_duration = 3.0
+var screen_size
 var can_attack = true
+var color = Color(0.0, 0.0, 0.0, 0)
+var attack_duration = 0.2
+var regen_amount = 10
+var time_since_last_hit = 0.0
+var regen_interval = 1.0
+var time_to_start_regen = 2.0
 
 func _ready():
 	screen_size = get_viewport_rect().size
 	position.x = 500
-	position.y = 500
+	position.y = screen_size.y
+	$AttackArea2D.monitoring = false
+	current_health = max_health
+	health_bar.max_value = max_health
+	health_bar.value = current_health
 
 func _process(delta):
+	if invulnerable:
+		return
 	
-	
+	if current_health < max_health:
+		time_since_last_hit += delta
+		if time_since_last_hit >= time_to_start_regen:
+			time_since_last_hit = 0.0
+			current_health = min(current_health + regen_amount, max_health)
+			health_bar.value = current_health
 	
 	var velocity = Vector2.ZERO # The player's movement vector.
 	if Input.is_action_pressed("move_right"):
@@ -40,6 +59,25 @@ func _process(delta):
 	var right_limit = screen_size.x - capsule_radius
 	position.x = clamp(position.x, left_limit, right_limit)
 
+func take_damage(amount):
+	if invulnerable:
+		return
+	current_health -= amount
+	time_since_last_hit = 0.0
+	health_bar.value = current_health
+	if current_health <= 0:
+		respawn()
+
+func respawn():
+	position.x = 500
+	position.y = screen_size.y
+	current_health = max_health
+	invulnerable = true
+	set_process_input(false)
+	await get_tree().create_timer(invulnerability_duration).timeout
+	invulnerable = false
+	set_process_input(true)
+	time_since_last_hit = 0.0
 
 func attack():
 	if $AttackArea2D != null:
@@ -60,29 +98,19 @@ func _on_AttackTimer_timeout():
 	can_attack = true
 
 func draw_circle_arc_poly(color):
-	var radius = 100
+	var radius = 80
 	var angle_from = 0
 	var angle_to = 360
 	var nb_points = 360
 	var points_arc = PackedVector2Array()
-	points_arc.push_back(Vector2(0, 0))
+	points_arc.push_back(Vector2(0, -80))
 	var colors = PackedColorArray([color])
 
 	for i in range(nb_points + 1):
 		var angle_point = deg_to_rad(angle_from + i * (angle_to - angle_from) / nb_points - 90)
-		points_arc.push_back(Vector2(0, 0) + Vector2(cos(angle_point), sin(angle_point)) * radius)
+		points_arc.push_back(Vector2(0, -80) + Vector2(cos(angle_point), sin(angle_point)) * radius)
 	draw_polygon(points_arc, colors)
 
 func _on_AttackArea2D_area_entered(area):
 	if area.is_in_group("enemies"):  # Assurez-vous que les ennemis sont dans ce groupe
-		area.take_damage(10)
-
-func _on_body_entered(_body):
-	hide()
-	hit.emit()
-	$CollisionShape2D.set_deferred("disabled", true)
-
-func start(pos):
-	position = pos
-	show()
-	$CollisionShape2D.disabled = false
+		area.take_damage(100)

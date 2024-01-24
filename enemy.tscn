@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://c0xyew1nfh1a"]
 
 [ext_resource type="Script" path="res://enemy.gd" id="1_jqttk"]
-[ext_resource type="Texture2D" uid="uid://ctnbp303chdm5" path="res://art/enemySwimming_1.png" id="2_a3shn"]
+[ext_resource type="Texture2D" uid="uid://1up7q8214gru" path="res://art/DEMON DE BASE.png" id="2_kmf56"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0o5s3"]
 radius = 54.0
@@ -11,11 +11,18 @@ height = 158.0
 script = ExtResource("1_jqttk")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_a3shn")
+scale = Vector2(0.16, 0.16)
+texture = ExtResource("2_kmf56")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-3, 1)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_0o5s3")
 
+[node name="AttackTimer" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="area_entered" from="." to="." method="_on_Enemy_area_entered"]
 [connection signal="area_exited" from="." to="." method="_on_Enemy_area_exited"]
+[connection signal="body_entered" from="." to="." method="_on_Enemy_body_entered"]
+[connection signal="timeout" from="AttackTimer" to="." method="_on_AttackTimer_timeout"]
