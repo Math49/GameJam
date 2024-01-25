@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://lovfi1d2b3h8"]
+
+[ext_resource type="Script" path="res://tank.gd" id="1_kdmba"]
+[ext_resource type="Texture2D" uid="uid://b8rm3cvf1mfdx" path="res://art/canon.png" id="1_kfwux"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ds10w"]
+radius = 1133.0
+
+[node name="tank" type="Node2D"]
+script = ExtResource("1_kdmba")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("1_kfwux")
+
+[node name="range" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="range"]
+position = Vector2(1, 4)
+shape = SubResource("CircleShape2D_ds10w")
+
+[node name="FireTimer" type="Timer" parent="."]
+wait_time = 0.5
+
+[connection signal="area_entered" from="range" to="." method="_on_Range_area_entered"]
+[connection signal="area_exited" from="range" to="." method="_on_Range_area_exited"]
+[connection signal="timeout" from="FireTimer" to="." method="_on_FireTimer_timeout"]

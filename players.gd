@@ -1,9 +1,8 @@
 extends Area2D
 
 @export var speed = 500
-@export var max_health = 100
 @onready var health_bar = $HealthBar
-var current_health = max_health
+var current_health = Globals.Player_Health 
 var invulnerable = false
 var invulnerability_duration = 3.0
 var screen_size
@@ -14,25 +13,27 @@ var regen_amount = 10
 var time_since_last_hit = 0.0
 var regen_interval = 1.0
 var time_to_start_regen = 2.0
+ 
+signal interaction
 
 func _ready():
 	screen_size = get_viewport_rect().size
 	position.x = 500
 	position.y = screen_size.y
 	$AttackArea2D.monitoring = false
-	current_health = max_health
-	health_bar.max_value = max_health
+	current_health = Globals.Player_Health
+	health_bar.max_value = Globals.Player_Health
 	health_bar.value = current_health
 
 func _process(delta):
 	if invulnerable:
 		return
 	
-	if current_health < max_health:
+	if current_health < Globals.Player_Health:
 		time_since_last_hit += delta
 		if time_since_last_hit >= time_to_start_regen:
 			time_since_last_hit = 0.0
-			current_health = min(current_health + regen_amount, max_health)
+			current_health = min(current_health + regen_amount, Globals.Player_Health)
 			health_bar.value = current_health
 	
 	var velocity = Vector2.ZERO # The player's movement vector.
@@ -42,7 +43,9 @@ func _process(delta):
 		velocity.x -= 1
 	if Input.is_action_just_pressed("attack") and can_attack:
 		attack()
-
+	if is_in_base() and Input.is_action_just_pressed("interact"):
+		emit_signal("interaction")
+		
 	if velocity.x != 0:
 		$Sprite2D.flip_v = false
 		# See the note below about boolean assignment.
@@ -71,7 +74,8 @@ func take_damage(amount):
 func respawn():
 	position.x = 500
 	position.y = screen_size.y
-	current_health = max_health
+	current_health = Globals.Player_Health
+	health_bar.value = current_health
 	invulnerable = true
 	set_process_input(false)
 	await get_tree().create_timer(invulnerability_duration).timeout
@@ -98,7 +102,7 @@ func _on_AttackTimer_timeout():
 	can_attack = true
 
 func draw_circle_arc_poly(color):
-	var radius = 80
+	var radius = 120
 	var angle_from = 0
 	var angle_to = 360
 	var nb_points = 360
@@ -113,4 +117,14 @@ func draw_circle_arc_poly(color):
 
 func _on_AttackArea2D_area_entered(area):
 	if area.is_in_group("enemies"):  # Assurez-vous que les ennemis sont dans ce groupe
-		area.take_damage(100)
+		area.take_damage(Globals.Player_Damage)
+	if area.is_in_group("Mini-Boss"):  # Assurez-vous que les ennemis sont dans ce groupe
+		area.take_damage(Globals.Player_Damage)
+	if area.is_in_group("Boss"):  # Assurez-vous que les ennemis sont dans ce groupe
+		area.take_damage(Globals.Player_Damage)
+
+func is_in_base():
+	for area in get_overlapping_areas():
+		if area.name == "Base":  # Assurez-vous que votre base est dans un groupe nommé "Base"
+			return true
+	return false

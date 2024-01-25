@@ -1,25 +1,27 @@
-[gd_scene load_steps=9 format=3 uid="uid://0putljalft07"]
+[gd_scene load_steps=12 format=3 uid="uid://0putljalft07"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_owb7t"]
-[ext_resource type="Texture2D" uid="uid://ceiid7vbe6vr5" path="res://art/background.png" id="2_83iix"]
+[ext_resource type="Texture2D" uid="uid://b0asn3wr37ft8" path="res://art/Fond d'accueil jeu vidéo.png" id="2_fdosc"]
 [ext_resource type="PackedScene" uid="uid://cvl42sdungpi7" path="res://players.tscn" id="2_u610g"]
 [ext_resource type="PackedScene" uid="uid://8cnpep4eley0" path="res://EnemySpawner.tscn" id="4_g0l4t"]
 [ext_resource type="PackedScene" uid="uid://brdgpnyccsm6k" path="res://wall.tscn" id="5_5skbk"]
 [ext_resource type="PackedScene" uid="uid://bc2nam4uugwwt" path="res://Tourelle.tscn" id="6_jcdev"]
-[ext_resource type="PackedScene" uid="uid://chnwldd3prhsd" path="res://Projectile.tscn" id="7_hyu4x"]
+[ext_resource type="PackedScene" uid="uid://lovfi1d2b3h8" path="res://tank.tscn" id="8_6iufy"]
+[ext_resource type="PackedScene" uid="uid://ycxmhcygi8ej" path="res://Base.tscn" id="8_lp6k2"]
+[ext_resource type="PackedScene" uid="uid://dwnqdw642h502" path="res://Amelioration.tscn" id="9_odvsn"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_g72ot"]
 font_size = 43
+
+[sub_resource type="LabelSettings" id="LabelSettings_c60nn"]
+font_size = 80
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_owb7t")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-visible = false
-texture = ExtResource("2_83iix")
+texture = ExtResource("2_fdosc")
 centered = false
-
-[node name="Players" parent="." instance=ExtResource("2_u610g")]
 
 [node name="EnemySpawner" parent="." instance=ExtResource("4_g0l4t")]
 
@@ -45,7 +47,32 @@ horizontal_alignment = 1
 
 [node name="Tourelle" parent="." instance=ExtResource("6_jcdev")]
 
-[node name="Projectile" parent="." instance=ExtResource("7_hyu4x")]
-position = Vector2(104, 88)
+[node name="tank" parent="." instance=ExtResource("8_6iufy")]
+position = Vector2(242, 291)
+
+[node name="Base" parent="." instance=ExtResource("8_lp6k2")]
+position = Vector2(55, 1001)
+
+[node name="Players" parent="." instance=ExtResource("2_u610g")]
+
+[node name="GameOver" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -0.5
+offset_top = -11.5
+offset_right = 0.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+label_settings = SubResource("LabelSettings_c60nn")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Amelioration" parent="." instance=ExtResource("9_odvsn")]
 
 [connection signal="enemy_killed" from="EnemySpawner" to="." method="_on_enemy_killed"]
+[connection signal="game_over" from="Base" to="." method="_on_game_over"]
+[connection signal="interaction" from="Players" to="." method="_on_players_interaction"]

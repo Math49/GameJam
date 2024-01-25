@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://ycxmhcygi8ej"]
+
+[ext_resource type="Script" path="res://Base.gd" id="1_smsv4"]
+[ext_resource type="Texture2D" uid="uid://igxfaoh5i3o3" path="res://art/bat je ai marre avec arrière-plan supprimé.png" id="1_u8wml"]
+[ext_resource type="Texture2D" uid="uid://buyqoqc56l4ef" path="res://art/Bouclier vie_.png" id="3_01w05"]
+[ext_resource type="Texture2D" uid="uid://1nlma1dyu8h8" path="res://art/Barre de vie bouclier.png" id="4_r331g"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dhx7t"]
+radius = 229.009
+
+[node name="Base" type="Area2D"]
+script = ExtResource("1_smsv4")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("1_u8wml")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-20, 75)
+shape = SubResource("CircleShape2D_dhx7t")
+
+[node name="HealthBar" type="TextureProgressBar" parent="."]
+offset_left = 149.0
+offset_top = -59.0
+offset_right = 249.0
+offset_bottom = -39.0
+scale = Vector2(1.5, 1.5)
+value = 100.0
+texture_over = ExtResource("3_01w05")
+texture_progress = ExtResource("4_r331g")
+texture_progress_offset = Vector2(0, -0.23)
+
+[connection signal="area_entered" from="." to="." method="_on_Base_area_entered"]

@@ -1,10 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://cvl42sdungpi7"]
+[gd_scene load_steps=8 format=3 uid="uid://cvl42sdungpi7"]
 
 [ext_resource type="Script" path="res://players.gd" id="1_fv8nl"]
 [ext_resource type="Texture2D" uid="uid://bwfk2fxiuh3ma" path="res://art/player.png" id="2_xy6r1"]
-[ext_resource type="Texture2D" uid="uid://cq1w8mqs7uti3" path="res://art/wall_health_over.png" id="3_ddlwd"]
-[ext_resource type="Texture2D" uid="uid://c8jcx4g2egjif" path="res://art/wall_health.png" id="3_pq7o6"]
-[ext_resource type="Script" path="res://HealthBar.gd" id="4_iuq2a"]
+[ext_resource type="Texture2D" uid="uid://c57r875rt4ows" path="res://art/Barre de vie photoshop.png" id="3_oj4b6"]
+[ext_resource type="Texture2D" uid="uid://jn2g3ni4fkgv" path="res://art/vie barre.png" id="4_p4cx3"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tip00"]
 radius = 50.0
@@ -13,16 +12,16 @@ height = 148.0
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_8iswq"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kx32q"]
-radius = 74.3303
+radius = 96.0208
 
 [node name="Players" type="Area2D" groups=["Players"]]
 position = Vector2(885, 453)
 script = ExtResource("1_fv8nl")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.7, 0.7)
+scale = Vector2(0.795, 0.795)
 texture = ExtResource("2_xy6r1")
-offset = Vector2(0, -115)
+offset = Vector2(0, -86.81)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(3, -71)
@@ -40,21 +39,14 @@ wait_time = 0.2
 one_shot = true
 
 [node name="HealthBar" type="TextureProgressBar" parent="."]
-offset_left = -47.0
-offset_top = -171.0
-offset_right = 53.0
-offset_bottom = -151.0
+offset_left = -49.0
+offset_top = -147.0
+offset_right = 51.0
+offset_bottom = -127.0
 value = 100.0
-texture_over = ExtResource("3_ddlwd")
-texture_progress = ExtResource("3_pq7o6")
-script = ExtResource("4_iuq2a")
-
-[node name="Label" type="Label" parent="HealthBar"]
-layout_mode = 0
-offset_right = 100.0
-offset_bottom = 23.0
-horizontal_alignment = 1
-vertical_alignment = 1
+texture_over = ExtResource("3_oj4b6")
+texture_progress = ExtResource("4_p4cx3")
+texture_progress_offset = Vector2(13.345, 6.965)
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

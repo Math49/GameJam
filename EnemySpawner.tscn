@@ -1,11 +1,26 @@
 [gd_scene load_steps=6 format=3 uid="uid://8cnpep4eley0"]
 
 [ext_resource type="Script" path="res://EnemySpawner.gd" id="1_i7jag"]
-[ext_resource type="Script" path="res://WaveLabel.gd" id="2_3086a"]
 [ext_resource type="Script" path="res://TimerLabel.gd" id="3_j7u4k"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_lo0l8"]
 font_size = 50
+
+[sub_resource type="GDScript" id="GDScript_1m7p5"]
+script/source = "extends Label
+
+func _ready():
+	update_label_position()
+
+func update_label_position():
+	var screen_size = get_viewport_rect().size
+	var label_rect = get_rect()
+	var new_position = Vector2(
+		(screen_size.x - label_rect.size.x) / 2,
+		100
+	)
+	position = new_position
+"
 
 [sub_resource type="LabelSettings" id="LabelSettings_b4y7w"]
 font_size = 60
@@ -36,7 +51,7 @@ pivot_offset = Vector2(50, 50)
 label_settings = SubResource("LabelSettings_lo0l8")
 horizontal_alignment = 1
 vertical_alignment = 1
-script = ExtResource("2_3086a")
+script = SubResource("GDScript_1m7p5")
 
 [node name="TimerLabel" type="Label" parent="."]
 anchors_preset = 8

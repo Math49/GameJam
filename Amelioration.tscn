@@ -1,0 +1,333 @@
+[gd_scene load_steps=20 format=3 uid="uid://dwnqdw642h502"]
+
+[ext_resource type="Script" path="res://update/PlayerDamage.gd" id="1_ybire"]
+[ext_resource type="Script" path="res://update/PlayerDamageLabel.gd" id="2_8mwnb"]
+[ext_resource type="Script" path="res://update/PlayerHealth.gd" id="3_ixwmp"]
+[ext_resource type="Script" path="res://update/PlayerHealthStat.gd" id="4_kbeb8"]
+[ext_resource type="Script" path="res://update/TourelleDamage.gd" id="5_n3un0"]
+[ext_resource type="Script" path="res://update/TourelleDamageStat.gd" id="6_1bv6w"]
+[ext_resource type="Script" path="res://update/TourelleRange.gd" id="7_ese7v"]
+[ext_resource type="Script" path="res://update/TourelleRangeStat.gd" id="8_rexbl"]
+[ext_resource type="Script" path="res://update/TourelleRate.gd" id="9_t31ml"]
+[ext_resource type="Script" path="res://update/TourelleRateStat.gd" id="10_65ox6"]
+[ext_resource type="Script" path="res://update/TankDamage.gd" id="11_pn57p"]
+[ext_resource type="Script" path="res://update/TankDamageStat.gd" id="12_b4aib"]
+[ext_resource type="Script" path="res://update/TankRange.gd" id="13_42d1m"]
+[ext_resource type="Script" path="res://update/TankRangeStat.gd" id="14_rcyxh"]
+[ext_resource type="Script" path="res://update/TankRate.gd" id="15_lx1qa"]
+[ext_resource type="Script" path="res://update/TankRateStat.gd" id="16_yipy1"]
+[ext_resource type="Script" path="res://update/WallHealth.gd" id="17_6livh"]
+[ext_resource type="Script" path="res://update/WallHealthStat.gd" id="18_vs4h7"]
+[ext_resource type="Script" path="res://update/WallHealing.gd" id="19_jsr4f"]
+
+[node name="Amelioration" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 140.0
+offset_top = 66.0
+offset_right = 944.0
+offset_bottom = 384.0
+color = Color(0.0823529, 0.0823529, 0.294118, 1)
+
+[node name="Player" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PlayerDamage" type="Control" parent="Player"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PlayerDamageLabel" type="Label" parent="Player/PlayerDamage"]
+layout_mode = 0
+offset_left = 173.0
+offset_top = 148.0
+offset_right = 298.0
+offset_bottom = 171.0
+text = "Damage Player :"
+
+[node name="PlayerDamage" type="Button" parent="Player/PlayerDamage"]
+layout_mode = 0
+offset_left = 310.0
+offset_top = 145.0
+offset_right = 420.0
+offset_bottom = 177.0
+script = ExtResource("1_ybire")
+
+[node name="PlayerDamageStat" type="Label" parent="Player/PlayerDamage"]
+layout_mode = 0
+offset_left = 434.0
+offset_top = 150.0
+offset_right = 474.0
+offset_bottom = 173.0
+script = ExtResource("2_8mwnb")
+
+[node name="PlayerHealth" type="Control" parent="Player"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PlayerHealthLabel" type="Label" parent="Player/PlayerHealth"]
+layout_mode = 0
+offset_left = 173.0
+offset_top = 101.0
+offset_right = 298.0
+offset_bottom = 124.0
+text = "Health Player :"
+
+[node name="PlayerHealth" type="Button" parent="Player/PlayerHealth"]
+layout_mode = 0
+offset_left = 310.0
+offset_top = 98.0
+offset_right = 420.0
+offset_bottom = 130.0
+script = ExtResource("3_ixwmp")
+
+[node name="PlayerHealthStat" type="Label" parent="Player/PlayerHealth"]
+layout_mode = 0
+offset_left = 428.0
+offset_top = 102.0
+offset_right = 468.0
+offset_bottom = 125.0
+script = ExtResource("4_kbeb8")
+
+[node name="Tourelle" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TourelleDamage" type="Control" parent="Tourelle"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TourelleDamageLabel" type="Label" parent="Tourelle/TourelleDamage"]
+offset_left = 162.0
+offset_top = 230.0
+offset_right = 302.0
+offset_bottom = 253.0
+text = "Tourelle Damage :"
+
+[node name="TourelleDamage" type="Button" parent="Tourelle/TourelleDamage"]
+offset_left = 310.0
+offset_top = 227.0
+offset_right = 420.0
+offset_bottom = 259.0
+script = ExtResource("5_n3un0")
+
+[node name="TourelleDamageStat" type="Label" parent="Tourelle/TourelleDamage"]
+offset_left = 434.0
+offset_top = 232.0
+offset_right = 474.0
+offset_bottom = 255.0
+script = ExtResource("6_1bv6w")
+
+[node name="TourelleRange" type="Control" parent="Tourelle"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TourelleRangeLabel" type="Label" parent="Tourelle/TourelleRange"]
+offset_left = 173.0
+offset_top = 278.0
+offset_right = 298.0
+offset_bottom = 301.0
+text = "Tourelle Range :"
+
+[node name="TourelleRange" type="Button" parent="Tourelle/TourelleRange"]
+offset_left = 310.0
+offset_top = 275.0
+offset_right = 420.0
+offset_bottom = 307.0
+script = ExtResource("7_ese7v")
+
+[node name="TourelleRangeStat" type="Label" parent="Tourelle/TourelleRange"]
+offset_left = 434.0
+offset_top = 280.0
+offset_right = 474.0
+offset_bottom = 303.0
+script = ExtResource("8_rexbl")
+
+[node name="TourelleRate" type="Control" parent="Tourelle"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TourelleRateLabel" type="Label" parent="Tourelle/TourelleRate"]
+offset_left = 175.0
+offset_top = 326.0
+offset_right = 300.0
+offset_bottom = 349.0
+text = "Tourelle Rate :"
+
+[node name="TourelleRate" type="Button" parent="Tourelle/TourelleRate"]
+offset_left = 312.0
+offset_top = 323.0
+offset_right = 422.0
+offset_bottom = 355.0
+script = ExtResource("9_t31ml")
+
+[node name="TourelleRateStat" type="Label" parent="Tourelle/TourelleRate"]
+offset_left = 436.0
+offset_top = 328.0
+offset_right = 476.0
+offset_bottom = 351.0
+script = ExtResource("10_65ox6")
+
+[node name="Tank" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TankDamage" type="Control" parent="Tank"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TankDamageLabel" type="Label" parent="Tank/TankDamage"]
+offset_left = 598.0
+offset_top = 103.0
+offset_right = 723.0
+offset_bottom = 126.0
+text = "Tank Damage :"
+
+[node name="TankDamage" type="Button" parent="Tank/TankDamage"]
+offset_left = 735.0
+offset_top = 100.0
+offset_right = 845.0
+offset_bottom = 132.0
+script = ExtResource("11_pn57p")
+
+[node name="TankDamageStat" type="Label" parent="Tank/TankDamage"]
+offset_left = 859.0
+offset_top = 105.0
+offset_right = 899.0
+offset_bottom = 128.0
+script = ExtResource("12_b4aib")
+
+[node name="TankRange" type="Control" parent="Tank"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TankRangeLabel" type="Label" parent="Tank/TankRange"]
+offset_left = 599.0
+offset_top = 154.0
+offset_right = 724.0
+offset_bottom = 177.0
+text = "Tank Range :"
+
+[node name="TankRange" type="Button" parent="Tank/TankRange"]
+offset_left = 736.0
+offset_top = 151.0
+offset_right = 846.0
+offset_bottom = 183.0
+script = ExtResource("13_42d1m")
+
+[node name="TankRangeStat" type="Label" parent="Tank/TankRange"]
+offset_left = 860.0
+offset_top = 156.0
+offset_right = 900.0
+offset_bottom = 179.0
+script = ExtResource("14_rcyxh")
+
+[node name="TankRate" type="Control" parent="Tank"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TankRateLabel" type="Label" parent="Tank/TankRate"]
+offset_left = 601.0
+offset_top = 200.0
+offset_right = 726.0
+offset_bottom = 223.0
+text = "Tank Rate :"
+
+[node name="TankRate" type="Button" parent="Tank/TankRate"]
+offset_left = 738.0
+offset_top = 197.0
+offset_right = 848.0
+offset_bottom = 229.0
+script = ExtResource("15_lx1qa")
+
+[node name="TankRateStat" type="Label" parent="Tank/TankRate"]
+offset_left = 862.0
+offset_top = 202.0
+offset_right = 902.0
+offset_bottom = 225.0
+script = ExtResource("16_yipy1")
+
+[node name="Wall" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="WallHealth" type="Control" parent="Wall"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="WallHealthLabel" type="Label" parent="Wall/WallHealth"]
+offset_left = 604.0
+offset_top = 279.0
+offset_right = 729.0
+offset_bottom = 302.0
+text = "Wall Health :"
+
+[node name="WallHealth" type="Button" parent="Wall/WallHealth"]
+offset_left = 741.0
+offset_top = 276.0
+offset_right = 851.0
+offset_bottom = 308.0
+script = ExtResource("17_6livh")
+
+[node name="WallHealthStat" type="Label" parent="Wall/WallHealth"]
+offset_left = 865.0
+offset_top = 281.0
+offset_right = 905.0
+offset_bottom = 304.0
+script = ExtResource("18_vs4h7")
+
+[node name="WallHealing" type="Control" parent="Wall"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="WallHealingLabel" type="Label" parent="Wall/WallHealing"]
+offset_left = 606.0
+offset_top = 326.0
+offset_right = 731.0
+offset_bottom = 349.0
+text = "Wall Healing :"
+
+[node name="WallHealing" type="Button" parent="Wall/WallHealing"]
+offset_left = 743.0
+offset_top = 323.0
+offset_right = 853.0
+offset_bottom = 355.0
+script = ExtResource("19_jsr4f")
+
+[connection signal="pressed" from="Player/PlayerDamage/PlayerDamage" to="Player/PlayerDamage/PlayerDamage" method="_on_Button_pressed"]
+[connection signal="pressed" from="Player/PlayerHealth/PlayerHealth" to="Player/PlayerHealth/PlayerHealth" method="_on_Button_pressed"]
+[connection signal="pressed" from="Tourelle/TourelleDamage/TourelleDamage" to="Tourelle/TourelleDamage/TourelleDamage" method="_on_Button_pressed"]
+[connection signal="pressed" from="Tourelle/TourelleRange/TourelleRange" to="Tourelle/TourelleRange/TourelleRange" method="_on_Button_pressed"]
+[connection signal="pressed" from="Tourelle/TourelleRate/TourelleRate" to="Tourelle/TourelleRate/TourelleRate" method="_on_Button_pressed"]
+[connection signal="pressed" from="Tank/TankDamage/TankDamage" to="Tank/TankDamage/TankDamage" method="_on_Button_pressed"]
+[connection signal="pressed" from="Tank/TankRange/TankRange" to="Tank/TankRange/TankRange" method="_on_Button_pressed"]
+[connection signal="pressed" from="Tank/TankRate/TankRate" to="Tank/TankRate/TankRate" method="_on_Button_pressed"]
+[connection signal="pressed" from="Wall/WallHealth/WallHealth" to="Wall/WallHealth/WallHealth" method="_on_Button_pressed"]
+[connection signal="pressed" from="Wall/WallHealing/WallHealing" to="Wall/WallHealing/WallHealing" method="_on_Button_pressed"]

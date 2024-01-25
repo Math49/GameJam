@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3 uid="uid://bstxr7ukdtus"]
+
+[ext_resource type="Script" path="res://mini_boss.gd" id="1_2wwib"]
+[ext_resource type="Texture2D" uid="uid://btf6srno72kgm" path="res://art/Monstre pixel-PhotoRoom.png-PhotoRoom 1 (1).png" id="1_h8d7v"]
+[ext_resource type="Texture2D" uid="uid://c57r875rt4ows" path="res://art/Barre de vie photoshop.png" id="3_iuwyf"]
+[ext_resource type="Texture2D" uid="uid://jn2g3ni4fkgv" path="res://art/vie barre.png" id="4_qxt57"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qndw6"]
+size = Vector2(152, 194)
+
+[node name="Mini-Boss" type="Area2D" groups=["Mini-Boss"]]
+script = ExtResource("1_2wwib")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_h8d7v")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_qndw6")
+
+[node name="AttackTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="HealthBar" type="TextureProgressBar" parent="."]
+offset_left = -99.0
+offset_top = -119.0
+offset_right = 1.0
+offset_bottom = -99.0
+value = 100.0
+texture_over = ExtResource("3_iuwyf")
+texture_progress = ExtResource("4_qxt57")
+texture_progress_offset = Vector2(13.345, 6.965)
+
+[connection signal="area_entered" from="." to="." method="_on_MiniBoss_area_entered"]
+[connection signal="area_exited" from="." to="." method="_on_MiniBoss_area_exited"]
+[connection signal="timeout" from="AttackTimer" to="." method="_on_AttackTimer_timeout"]

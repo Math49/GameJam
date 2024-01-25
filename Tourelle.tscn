@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bc2nam4uugwwt"]
 
 [ext_resource type="Script" path="res://Tourelle.gd" id="1_vpljb"]
-[ext_resource type="Texture2D" uid="uid://bt4h5gs4nng8n" path="res://art/canon.png" id="2_rqjoj"]
+[ext_resource type="Texture2D" uid="uid://cq1ijnv8fyife" path="res://art/TROUPE NV 1.png" id="2_obyxu"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5j3pj"]
 radius = 610.517
@@ -10,8 +10,8 @@ radius = 610.517
 script = ExtResource("1_vpljb")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("2_rqjoj")
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("2_obyxu")
 
 [node name="range" type="Area2D" parent="."]
 

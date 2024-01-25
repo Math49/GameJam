@@ -1,0 +1,53 @@
+[gd_scene load_steps=8 format=3 uid="uid://giytjwfo7xv4"]
+
+[ext_resource type="Script" path="res://boss.gd" id="1_ymns5"]
+[ext_resource type="Texture2D" uid="uid://qy3qkfew1vwn" path="res://art/Monstre mouv 1.png" id="1_yvkya"]
+[ext_resource type="Texture2D" uid="uid://imlx5v81hkqm" path="res://art/MOUV 2.png" id="2_mpg6k"]
+[ext_resource type="Texture2D" uid="uid://c57r875rt4ows" path="res://art/Barre de vie photoshop.png" id="2_sfji1"]
+[ext_resource type="Texture2D" uid="uid://jn2g3ni4fkgv" path="res://art/vie barre.png" id="3_j7g6x"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nhgbj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_yvkya")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_mpg6k")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0imo1"]
+size = Vector2(236, 248)
+
+[node name="Boss" type="Area2D" groups=["Boss"]]
+script = ExtResource("1_ymns5")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.3, 0.3)
+sprite_frames = SubResource("SpriteFrames_nhgbj")
+animation = &"walk"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_0imo1")
+
+[node name="AttackTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="HealthBar" type="TextureProgressBar" parent="."]
+offset_left = -45.0
+offset_top = -148.0
+offset_right = 55.0
+offset_bottom = -128.0
+value = 100.0
+texture_over = ExtResource("2_sfji1")
+texture_progress = ExtResource("3_j7g6x")
+texture_progress_offset = Vector2(13.345, 6.965)
+
+[connection signal="area_entered" from="." to="." method="_on_Boss_area_entered"]
+[connection signal="area_exited" from="." to="." method="_on_Boss_area_exited"]
+[connection signal="timeout" from="AttackTimer" to="." method="_on_AttackTimer_timeout"]

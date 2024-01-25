@@ -1,7 +1,10 @@
 extends Node2D
 
 var enemy_scene = preload("res://Enemy.tscn")
+var mini_boss_scene = preload("res://mini_boss.tscn")
+var boss_scene = preload("res://boss.tscn")
 var wave_number = 0
+var max_wave = 20
 var enemies_per_wave = 5
 var enemies_spawned_this_wave = 0
 var enemies_alive = 0
@@ -20,7 +23,8 @@ signal enemy_hit_player
 @onready var timer_label = $TimerLabel as Label
 
 func _ready():
-	
+	wave_label.position.y = 100
+	timer_label.position.y = 200
 	wave_timer.stop()
 	spawn_timer.timeout.connect(_on_SpawnTimer_timeout)
 	wave_timer.timeout.connect(_on_WaveTimer_timeout)
@@ -30,7 +34,10 @@ func _process(delta):
 	if not wave_timer.is_stopped():
 		timer_label.text = "Prochaine Vague Dans: " + str(int(wave_timer.time_left)) + "s"
 	else:
-		timer_label.text = "Vague en cours..."
+		if wave_number > max_wave:
+			timer_label.text = "Fin de partie !"
+		else:
+			timer_label.text = "Vague en cours..."
 
 func _on_WaveTimer_timeout():
 	if not wave_in_progress:
@@ -38,6 +45,8 @@ func _on_WaveTimer_timeout():
 
 func launch_wave():
 	wave_number += 1
+	if wave_number > max_wave:
+		return
 	enemies_spawned_this_wave = 0
 	enemies_per_wave += 1
 	enemies_alive = enemies_per_wave
@@ -52,15 +61,23 @@ func spawn_enemy_delayed():
 
 func _on_SpawnTimer_timeout():
 	if enemies_spawned_this_wave < enemies_per_wave:
-		var enemy = enemy_scene.instantiate()
-		enemy.max_health += enemy_health_increase * wave_number
-		enemy.current_health = enemy.max_health
-		enemy.damage += enemy_damage_increase * wave_number
+		var enemy_instance
+		if wave_number == 10 and enemies_spawned_this_wave == enemies_per_wave - 1:
+			enemy_instance = mini_boss_scene.instantiate()
+		elif wave_number == 20 and enemies_spawned_this_wave == enemies_per_wave - 1:
+			enemy_instance = boss_scene.instantiate()
+		else:
+			enemy_instance = enemy_scene.instantiate()
+			enemy_instance.max_health += enemy_health_increase * wave_number
+			enemy_instance.current_health = enemy_instance.max_health
+			enemy_instance.damage += enemy_damage_increase * wave_number
+			
 		enemies_spawned_this_wave += 1
-		enemy.enemy_killed.connect(_on_EnemyKilled)
+		enemy_instance.enemy_killed.connect(_on_EnemyKilled)
+		add_child(enemy_instance)
 		
-		add_child(enemy)
-		spawn_enemy_delayed()
+		if not (wave_number == 10 or wave_number == 20 and enemies_spawned_this_wave == enemies_per_wave):
+			spawn_enemy_delayed()
 
 func _on_EnemyKilled():
 	enemies_alive -= 1

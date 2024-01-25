@@ -8,7 +8,7 @@ var screen_size
 var moving = true
 var max_health = 20
 var current_health = max_health
-var damage = 5
+var damage = 10
 var attacking_wall = false
 var target_wall = null
 var can_attack = true
@@ -37,16 +37,16 @@ func _on_AttackTimer_timeout():
 	can_attack = true
 
 func _on_Enemy_area_entered(area):
-	if area.name == "Wall":
+	if area.name == "Wall" or area.name == "Base":
 		moving = false
 		attacking_wall = true
 		target_wall = area
 		set_process(true)
 	elif area.name == "Players":
-		area.take_damage(10)
+		area.take_damage(damage)
 
 func _on_Enemy_area_exited(area):
-	if area.name == "Wall":
+	if area.name == "Wall" or area.name == "Base":
 		attacking_wall = false
 		target_wall = null
 		set_process(false)
